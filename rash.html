@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Proposal</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .floating-flower {
+        position: absolute;
+        pointer-events: none;
+        animation: float 15s linear infinite;
+        opacity: 0.6;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translate(120vw, 0) rotate(0deg);
+        }
+
+        100% {
+          transform: translate(-20vw, 100vh) rotate(360deg);
+        }
+      }
+
+      .flower-container {
+        position: relative;
+        width: 300px;
+        height: 400px;
+        transform: scale(0);
+        transition: transform 1s;
+        z-index: 2;
+      }
+
+      .flower-container.bloom {
+        transform: scale(1);
+      }
+
+      .stem {
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        width: 8px;
+        height: 200px;
+        background: linear-gradient(to right, #15803d, #16a34a);
+        transform: translateX(-50%) scaleY(0);
+        transform-origin: bottom;
+        transition: transform 1s;
+      }
+
+      .stem.grow {
+        transform: translateX(-50%) scaleY(1);
+      }
+
+      .leaf {
+        position: absolute;
+        width: 40px;
+        height: 25px;
+        background: linear-gradient(145deg, #22c55e, #16a34a);
+        transform: scale(0);
+        transition: transform 1s;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .leaf.left {
+        left: -35px;
+        top: 60%;
+        border-radius: 100% 0 100% 0;
+        transform-origin: right;
+        transform: rotate(-30deg) scale(0);
+      }
+
+      .leaf.right {
+        right: -35px;
+        top: 50%;
+        border-radius: 0 100% 0 100%;
+        transform-origin: left;
+        transform: rotate(30deg) scale(0);
+      }
+
+      .leaf.grow {
+        transform: rotate(-30deg) scale(1);
+      }
+
+      .leaf.right.grow {
+        transform: rotate(30deg) scale(1);
+      }
+
+
+
+      .petal {
+        position: absolute;
+        width: 50px;
+        height: 80px;
+        background: linear-gradient(145deg, #f472b6, #ec4899);
+        border-radius: 50% 50% 0 0;
+        transform-origin: bottom center;
+        transform: rotate(0deg) scaleY(0);
+        transition: transform 1s;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        left: 50%;
+        top: 50%;
+        margin-left: -25px;
+        margin-top: -40px;
+      }
+
+      .petal.outer {
+        width: 60px;
+        height: 90px;
+        background: linear-gradient(145deg, #fbcfe8, #f9a8d4);
+        margin-left: -30px;
+        margin-top: -45px;
+      }
+
+      .petal.bloom {
+        transform: rotate(var(--rotation)) scaleY(1);
+      }
+
+.flower-head {
+  position: absolute;
+  left: 50%;
+  bottom: 200px; /* Adjust this value based on stem height */
+  transform: translateX(-50%);
+  width: 100px; /* Adjust based on flower size */
+  height: 100px; /* Adjust based on flower size */
+}
+
+.center {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle, #fbbf24, #f59e0b); /* Yellow gradient */
+  border-radius: 50%;
+  left: 50%;
+  top: 85%; /* Adjusted to align with petals */
+  transform: translate(-50%, -50%) scale(0); /* Center the middle part */
+  transition: transform 0.5s;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1; /* Ensure it's above the petals */
+}
+
+.center.bloom {
+  transform: translate(-50%, -50%) scale(1); /* Bloom animation */
+}
+
+      .message {
+        margin-top: 2rem;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 1s;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 2;
+      }
+
+      .message.show {
+        opacity: 1;
+      }
+
+      h1 {
+        color: #db2777;
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .buttons {
+        display: flex;
+        gap: 1rem;
+	justify-content: center;
+	gap: 20px;
+
+      }
+
+      button {
+        font-size: 1.25rem;
+        padding: 0.75rem 2rem;
+        border: none;
+        border-radius: 9999px;
+        color: white;
+        cursor: pointer;
+        transition: transform 0.2s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	justify-content: center;
+	gap: 20px;
+      }
+
+      button:hover {
+        transform: scale(1.1);
+      }
+
+      .yes-btn {
+        background: linear-gradient(to right, #ec4899, #db2777);
+
+      }
+
+      .yes-btn:hover {
+        background: linear-gradient(to right, #db2777, #be185d);
+      }
+
+      .no-btn {
+        background: linear-gradient(to right, #9ca3af, #6b7280);
+      }
+
+      .no-btn:hover {
+        background: linear-gradient(to right, #6b7280, #4b5563);
+      }
+
+      .success {
+        font-size: 2rem;
+        color: #db2777;
+        animation: bounce 1s infinite;
+      }
+
+      @keyframes bounce {
+
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      .full-screen-message {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 3rem;
+        color: #db2777;
+        font-weight: bold;
+        text-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 2s;
+        animation: bounce 2s infinite;
+      }
+
+      .full-screen-message.show {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="flower-container">
+      <div class="stem">
+        <div class="leaf left"></div>
+        <div class="leaf right"></div>
+      </div>
+      <div class="flower-head">
+        <div class="center"></div>
+      </div>
+    </div>
+    <div class="message">
+      <h1>Will you be my Valentine?</h1>
+      <div class="buttons" align="center">
+        <button class="yes-btn" >Yes! 💝</button>
+        <button class="no-btn" >No</button>
+      </div>
+    </div>
+    <script>
+      function createPetals() {
+        const flowerHead = document.querySelector('.flower-head');
+        // Create inner petals
+        for (let i = 0; i < 8; i++) {
+          const petal = document.createElement('div');
+          petal.className = 'petal';
+          petal.style.setProperty('--rotation', `${i * 45}deg`);
+          flowerHead.appendChild(petal);
+        }
+        // Create outer petals
+        for (let i = 0; i < 8; i++) {
+          const petal = document.createElement('div');
+          petal.className = 'petal outer';
+          petal.style.setProperty('--rotation', `${i * 45 + 22.5}deg`);
+          flowerHead.appendChild(petal);
+        }
+      }
+
+      function createFloatingFlowers() {
+        for (let i = 0; i < 20; i++) {
+          const flower = document.createElement('div');
+          flower.className = 'floating-flower';
+          flower.innerHTML = '🌸';
+          flower.style.fontSize = Math.random() * 20 + 10 + 'px';
+          flower.style.left = Math.random() * 100 + 'vw';
+          flower.style.top = Math.random() * 100 + 'vh';
+          flower.style.animationDelay = -Math.random() * 15 + 's';
+          flower.style.animationDuration = (Math.random() * 5 + 10) + 's';
+          document.body.appendChild(flower);
+        }
+      }
+
+      function createFlower(x, y) {
+        const flower = document.createElement('div');
+        flower.className = 'flower-container bloom';
+        flower.style.position = 'absolute';
+        flower.style.left = `${x}px`;
+        flower.style.top = `${y}px`;
+        flower.style.transform = 'scale(1)';
+        const stem = document.createElement('div');
+        stem.className = 'stem grow';
+        flower.appendChild(stem);
+        const leafLeft = document.createElement('div');
+        leafLeft.className = 'leaf left grow';
+        stem.appendChild(leafLeft);
+        const leafRight = document.createElement('div');
+        leafRight.className = 'leaf right grow';
+        stem.appendChild(leafRight);
+        const flowerHead = document.createElement('div');
+        flowerHead.className = 'flower-head';
+        flower.appendChild(flowerHead);
+        const center = document.createElement('div');
+        center.className = 'center bloom';
+        flowerHead.appendChild(center);
+        for (let i = 0; i < 8; i++) {
+          const petal = document.createElement('div');
+          petal.className = 'petal bloom';
+          petal.style.setProperty('--rotation', `${i * 45}deg`);
+          flowerHead.appendChild(petal);
+        }
+        for (let i = 0; i < 8; i++) {
+          const petal = document.createElement('div');
+          petal.className = 'petal outer bloom';
+          petal.style.setProperty('--rotation', `${i * 45 + 22.5}deg`);
+          flowerHead.appendChild(petal);
+        }
+        document.body.appendChild(flower);
+      }
+
+      function animateFlower() {
+        const container = document.querySelector('.flower-container');
+        const stem = document.querySelector('.stem');
+        const leaves = document.querySelectorAll('.leaf');
+        const petals = document.querySelectorAll('.petal');
+        const center = document.querySelector('.center');
+        const message = document.querySelector('.message');
+        setTimeout(() => container.classList.add('bloom'), 500);
+        setTimeout(() => stem.classList.add('grow'), 1000);
+        setTimeout(() => leaves.forEach(leaf => leaf.classList.add('grow')), 1500);
+        petals.forEach((petal, index) => {
+          setTimeout(() => petal.classList.add('bloom'), 2000 + index * 100);
+        });
+        setTimeout(() => center.classList.add('bloom'), 3000);
+        setTimeout(() => message.classList.add('show'), 3500);
+      }
+
+function handleNoButton() {
+  const noBtn = document.querySelector('.no-btn');
+  const handleMove = () => {
+    const x = Math.random() * 200 - 100;
+    const y = Math.random() * 200 - 100;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+  };
+
+  // Add event listeners for both mouse and touch
+  noBtn.addEventListener('mouseover', handleMove);
+  noBtn.addEventListener('touchstart', handleMove);
+}
+
+      function handleYesButton() {
+        const yesBtn = document.querySelector('.yes-btn');
+        const messageBox = document.querySelector('.message');
+        const flowerContainer = document.querySelector('.flower-container');
+        yesBtn.addEventListener('click', () => {
+          // Fade out the message and flower
+          messageBox.style.opacity = '0';
+          flowerContainer.style.opacity = '0';
+          setTimeout(() => {
+            messageBox.style.display = 'none';
+            flowerContainer.style.display = 'none';
+          }, 500);
+          // Create the "I Love You" animation container
+          const loveContainer = document.createElement('div');
+          loveContainer.classList.add('love-animation');
+          document.body.appendChild(loveContainer);
+          // Add animation HTML
+          loveContainer.innerHTML = `
+            
+					<div class="container">
+						<div class="letters">
+							<span style="--i:1">I</span>
+							<span style="--i:2">L</span>
+							<span style="--i:3">o</span>
+							<span style="--i:4">v</span>
+							<span style="--i:5">e</span>
+							<span style="--i:6">Y</span>
+							<span style="--i:7">o</span>
+							<span style="--i:8">u</span>
+						</div>
+						<div class="hearts">
+							<div class="heart one"></div>
+							<div class="heart two"></div>
+							<div class="heart three"></div>
+						</div>
+					</div>
+        `;
+          // Add animation CSS
+          const style = document.createElement('style');
+          style.innerHTML = `
+            .container {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+            }
+
+            .letters span {
+                font-size: 4rem;
+                font-weight: bold;
+                color: #ec4899;
+                display: inline-block;
+                animation: bounce 1s infinite alternate ease-in-out;
+                animation-delay: calc(var(--i) * 0.1s);
+		white-space: nowrap; /* Prevent text from wrapping */
+ 		font-size: 3rem; /
+            }
+
+            @keyframes bounce {
+                0% { transform: translateY(0); }
+                100% { transform: translateY(-20px); }
+            }
+
+            .hearts {
+  position: relative;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center; /* Center the hearts horizontally */
+  align-items: center; /* Center the hearts vertically */
+  width: 100%; /* Ensure the container takes full width */
+}
+
+.heart {
+  width: 50px;
+  height: 50px;
+  background: red;
+  position: relative; /* Change to relative for better alignment */
+  transform: rotate(-45deg);
+  animation: heartbeat 1s infinite alternate;
+  margin: 0 10px; /* Add spacing between hearts */
+}
+
+.heart::before,
+.heart::after {
+  content: "";
+  width: 50px;
+  height: 50px;
+  background: red;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.heart::before {
+  top: -25px;
+  left: 0;
+}
+
+.heart::after {
+  left: 25px;
+  top: 0;
+}
+
+.heart.one {
+  animation-delay: 0.2s;
+}
+
+.heart.two {
+  animation-delay: 0.4s;
+}
+
+.heart.three {
+  animation-delay: 0.6s;
+}
+
+@keyframes heartbeat {
+  0% {
+    transform: scale(1) rotate(-45deg);
+  }
+  100% {
+    transform: scale(1.2) rotate(-45deg);
+  }
+}
+
+            @keyframes heartbeat {
+                0% { transform: scale(1) rotate(-45deg); }
+                100% { transform: scale(1.2) rotate(-45deg); }
+            }
+        `;
+          document.head.appendChild(style);
+        });
+      }
+      createPetals();
+      createFloatingFlowers();
+      animateFlower();
+      handleNoButton();
+      handleYesButton();
+    </script>
+  </body>
+</html>
