@@ -4,6 +4,8 @@ An interactive Valentine's proposal webpage built with HTML, CSS, and vanilla Ja
 
 The page displays an animated flower, followed by a Valentine's proposal with interactive Yes and No buttons. Selecting Yes triggers an animated "I Love You" message with hearts.
 
+Demo: https://hashtagrr.github.io/BeMyValentine/
+
 ## Features
 
 * Animated flower blooming sequence
