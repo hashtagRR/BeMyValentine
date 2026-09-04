@@ -10,7 +10,7 @@ On load, JavaScript builds an animated flower (stem grows, leaves appear, petals
 
 ## Running it
 
-There's nothing to build or install — just open the file in a browser:
+There's nothing to build or install. Just open the file in a browser:
 
 ```bash
 git clone https://github.com/hashtagRR/BeMyValentine.git
@@ -28,4 +28,4 @@ Everything lives in `index.html`:
 
 ## License
 
-GPL-3.0 — see [LICENSE](LICENSE).
+GPL-3.0. See [LICENSE](LICENSE).
